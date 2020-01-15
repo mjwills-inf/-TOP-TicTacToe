@@ -1,28 +1,53 @@
 const gameBoard = (function() {
   
+  const gridContainer = document.getElementById('grid-container');
+  console.log(gridContainer);
+
+  
   const boardTiles = [
-    ["", "", ""]
-    ["", "", ""]
-    ["", "", ""]
+    [1, 2, 2],
+    [1, 2, 1],
+    [2, 1, 0],
   ];
+  
+  console.log(boardTiles)
 
-  // render inside
-  // -1, 0, 1 ()
 
+  const render = () => {
+    for (i=0; i<boardTiles.length; i++) {
+      for (j=0; j<boardTiles[i].length; j++) {
+        let newDiv = document.createElement('div');
+        newDiv.classList = 'tile';
+        newDiv.setAttribute('array-ref', "[" + i + "]" + "[" + j + "]");
+        newDiv.setAttribute('content', boardTiles[i][j])
+        gridContainer.appendChild(newDiv);
+        
+      }
+    }
+  }
 
+  return {
+    render,
+    boardTiles,
+  }
   
 
 })();
 
-const players = () => {
+gameBoard.render();
+console.log(gameBoard.boardTiles[0][0])
 
+
+
+
+
+
+const players = () => {
 };
 
 
 
 const game = (function() {
-
-
 })();
 
 // variable for game StaticRange, running, turn
