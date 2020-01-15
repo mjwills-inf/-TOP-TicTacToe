@@ -1,8 +1,21 @@
 #grid-container {
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
   background-color: rgb(34, 187, 187);
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+.tile[content="1"] {
+  margin: 15px;   
+  background-image: url(../assets/xoAsset1.png);
+  background-size: cover;    
+ 
+}
+
+.tile[content="2"] {
+  margin: 15px;
+  background-image: url(../assets/xoAsset2.png);
+  background-size: cover;    
 }
