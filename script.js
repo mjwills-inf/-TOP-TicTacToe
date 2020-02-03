@@ -109,9 +109,10 @@ const game = (function() {
 // Page display/DOM module
 const displayController = (function() {
   const modal = document.getElementById('input-modal');  
+  console.log(modal.style.display)
   const toggleModal = () => {
-    (modal.style.display == 'none' || modal.style.display == 'z') ?
-        modal.style.display = 'block' : modal.style.display = 'none'; 
+    (modal.style.display == 'none' || modal.style.display == '') ?
+        modal.style.display = 'flex' : modal.style.display = 'none'; 
   }
 
   return {
