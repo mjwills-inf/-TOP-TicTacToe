@@ -2,39 +2,54 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Tic Tac Toe</title>
 	<link rel="stylesheet" href="styles/reset.css">
 	<link rel="stylesheet" href="styles/style.css">
-  <link rel="icon" type="image/x-icon" href="assets/xo.png">
+	<link rel="icon" type="image/x-icon" href="assets/xo.png">
 	<script src="script.js" defer></script>
 </head>
 
 <body>
 
-	<div id="name display">
-		<
-	</div>
-	
-	<div id="grid-container">
-		
-	</div>
+	<div id="page-container">
 
-	<div>
-		<form>
-			<label for="name1">Name1: <input type="text" id="name">			
-			<br>
-			<label for="name2">Name2: <input type="text" id="name2">				
-			<br>
-			<input type="button" id="start" value="Start">
-			<input type="button" id="reset" value="Reset">
-		</form>
+		<div id="input-modal">
+			<div id="title">
+				<h1>TIC</h1>
+				<h1>TAC</h1>
+				<h1>TOE</h1>
+			</div>
+			<form>
+				<div id="versus">
+					<h2>Versus:</h2>
+				<label for="computer">Computer</label>
+				<input type="radio" name="versus" id="computer" value="computer">
+				<label for="human">Human</label>
+				<input type="radio" name="versus" id="human" value="human" checked>
+			</div>
+				<label for="name1"><input type="text" id="name1" placeholder="Player One">
+					<br>
+					<label for="name2"><input type="text" id="name2" placeholder="Player Two">
+						<br>
+						<input type="button" id="start" value="Start">
+						
+			</form>
+		</div>
 
-		<!-- modal covering exact size of board black out background -->
-		<!-- modal has name options vs PC or Player 2 (p2 pops up o) -->
 
+		<div id="board-container">
+			<div id="name1-display">
+				Name One
+			</div>
+			<div id="grid-container">
+			</div>
+			<div id="name2-display">
+				Name Two
+			</div>
+		</div>
 
 	</div>
 

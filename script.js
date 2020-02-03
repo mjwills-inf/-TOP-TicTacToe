@@ -1,14 +1,16 @@
+
+// Player Factory
 const players = (name, pNum) => {
   const getName = () => name;
   const mark = () => pNum;
   return {getName, mark}  
 };
 
-// player picks p1(x) or p2(o) dom 
+
 const p1 = players('Human', 1);
 const p2 = players('Computer', -1);
-//////////////////////////////////
 
+// Gameboard Module
 const gameBoard = (function() {  
   let boardTiles = [
     [, , ,],    
@@ -42,6 +44,7 @@ const gameBoard = (function() {
   }  
 })();
 
+// Game Module
 const game = (function() {    
   let currentPlayer = p1;
   let turnCount = 0;
@@ -96,10 +99,25 @@ const game = (function() {
   return {
     tileSelection,    
   }
+
+  //reset function has to clear all attribute 'content' from divs
+  //reduce turn count to 0
+  //won to false
+})();
+
+
+// Page display/DOM module
+const displayController = (function() {
+  const modal = document.getElementById('input-modal');  
+  const toggleModal = () => {
+    (modal.style.display == 'none' || modal.style.display == 'z') ?
+        modal.style.display = 'block' : modal.style.display = 'none'; 
+  }
+
+  return {
+    toggleModal
+  }
 })();
 
 gameBoard.renderBoard()
 
-//reset function has to clear all attribute 'content' from divs
-  //reduce turn count to 0
-  //won to false
