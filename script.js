@@ -108,17 +108,18 @@ const game = (function() {
 
 // Page display/DOM module
 const displayController = (function() {
-  const modal = document.getElementById('input-modal');  
-  console.log(modal.style.display)
-  const toggleModal = () => {
-    (modal.style.display == 'none' || modal.style.display == '') ?
-        modal.style.display = 'flex' : modal.style.display = 'none'; 
+  const startButton = document.getElementById('start');
+  const modal = document.getElementById('input-modal'); 
+  
+
+  closeModal = () => {
+    modal.style.display = 'none';
   }
 
-  return {
-    toggleModal
-  }
+  startButton.addEventListener('click', closeModal);
+
 })();
 
 gameBoard.renderBoard()
 
+// document.querySelector('input[name="genderS"]:checked').value;
