@@ -7,8 +7,7 @@ const players = (name, pNum) => {
 };
 
 
-const p1 = players('Human', 1);
-const p2 = players('Computer', -1);
+
 
 // Gameboard Module
 const gameBoard = (function() {  
@@ -44,22 +43,47 @@ const gameBoard = (function() {
   }  
 })();
 
+
+
+
 // Game Module
-const game = (function() {    
+const game = (function() {
+  let p1;
+  let p2;
+  
+  updatePlayers = () => {    // This is here because of my stupid use of 1/-1 + p1/p2
+    let playerChoice = document.querySelector('input[name="turn"]:checked').value;
+    if (playerChoice == 1) {
+      p1 = players(document.querySelector('#name1').value, 1);
+      p2 = players(document.querySelector('#name2').value, -1);
+    } else {
+      p1 = players(document.querySelector('#name2').value, 1);
+      p2 = players(document.querySelector('#name1').value, -1);
+    }
+    currentPlayer = p1;
+  }
+  
   let currentPlayer = p1;
   let turnCount = 0;
   let won = false;  
+  
   const tileSelection = (event) => {
     let tile = event.target.getAttribute('id');    
-    if (event.target.getAttribute('content') == null) {    
+    if (event.target.getAttribute('content') == null) {
+      console.log(currentPlayer.mark());
+      console.log(currentPlayer.getName());   
       gameBoard.renderMark(tile, currentPlayer.mark());
       turnChange();
       checkWin();
     }
   };  
+  
+  
   const turnChange = () => {
     (currentPlayer == p1) ? currentPlayer = p2 : currentPlayer = p1;
   };    
+  
+  
   const checkWin = () => {
     turnCount++;
     let arrCopy = gameBoard.getBoard();
@@ -87,17 +111,24 @@ const game = (function() {
       drawCheck()
     }
   };
+  
+  
   const drawCheck = () => {
     if (won == false) {
       console.log("draw")
     }        
   }
+  
+  
   const winnerIs = (pNum) => {
     won = true;
     console.log(`winner is ${pNum}`)
   }
+  
+  
   return {
-    tileSelection,    
+    tileSelection,
+    updatePlayers    
   }
 
   //reset function has to clear all attribute 'content' from divs
@@ -116,10 +147,18 @@ const displayController = (function() {
     modal.style.display = 'none';
   }
 
-  startButton.addEventListener('click', closeModal);
+  startButton.addEventListener('click', () => {
+    game.updatePlayers();
+    closeModal();
+  });
+
 
 })();
 
 gameBoard.renderBoard()
 
-// document.querySelector('input[name="genderS"]:checked').value;
+
+
+document.querySelector('input[name="turn"]:checked').value;
+document.querySelector('#name1').value
+document.querySelector('#name2').value
