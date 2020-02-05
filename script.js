@@ -1,16 +1,14 @@
 
-// Player Factory
+// Player Factory ///////////////////////////////////////////////////////////////////////
 const players = (name, pNum) => {
   const getName = () => name;
   const mark = () => pNum;
   return {getName, mark}  
 };
 
-
-
-
-// Gameboard Module
+// Gameboard Module /////////////////////////////////////////////////////////////////////
 const gameBoard = (function() {  
+
   let boardTiles = [
     [, , ,],    
     [, , ,],
@@ -36,22 +34,44 @@ const gameBoard = (function() {
     targetDiv.setAttribute('content', whichMark);
     boardTiles[arrayRefOne][arrayRefTwo] = whichMark;  
   }
+  let divTiles = document.getElementsByClassName("tile");
+  const clearBoard = () => {    
+    boardTiles = [
+      [, , ,],    
+      [, , ,],
+      [, , ,],
+    ];
+    
+    for (i=0; i<divTiles.length; i++) {
+      divTiles[i].removeAttribute('content');
+      divTiles[i].addEventListener('click', game.tileSelection);
+    }
+  }
+  const clearListeners = () => {
+    for (i=0; i<divTiles.length; i++) {
+      divTiles[i].removeEventListener('click', game.tileSelection)
+    }
+  }
+    
   return {
     renderBoard,
     renderMark,
     getBoard,
+    clearBoard,
+    clearListeners,
   }  
 })();
 
-
-
-
-// Game Module
+// Game Module //////////////////////////////////////////////////////////////////////////
 const game = (function() {
+
   let p1;
   let p2;
+  let currentPlayer = p1;
+  let turnCount = 0;
+  let won = false;  
   
-  updatePlayers = () => {    // This is here because of my stupid use of 1/-1 + p1/p2
+  updatePlayers = () => {    // This is here because of bad 1/-1 p1/p2 plan
     let playerChoice = document.querySelector('input[name="turn"]:checked').value;
     if (playerChoice == 1) {
       p1 = players(document.querySelector('#name1').value, 1);
@@ -61,30 +81,19 @@ const game = (function() {
       p2 = players(document.querySelector('#name1').value, -1);
     }
     currentPlayer = p1;
-  }
-  
-  let currentPlayer = p1;
-  let turnCount = 0;
-  let won = false;  
-  
+  }  
   const tileSelection = (event) => {
     let tile = event.target.getAttribute('id');    
     if (event.target.getAttribute('content') == null) {
-      console.log(currentPlayer.mark());
-      console.log(currentPlayer.getName());   
       gameBoard.renderMark(tile, currentPlayer.mark());
       turnChange();
       checkWin();
     }
   };  
-  
-  
   const turnChange = () => {
     (currentPlayer == p1) ? currentPlayer = p2 : currentPlayer = p1;
-  };    
-  
-  
-  const checkWin = () => {
+  };  
+  const checkWin = () => {   // Should have just checked for winning array arrangments
     turnCount++;
     let arrCopy = gameBoard.getBoard();
     for (i = 0; i < arrCopy.length; i++) {
@@ -110,55 +119,83 @@ const game = (function() {
     if (turnCount == 9) {
       drawCheck()
     }
-  };
-  
-  
+  };  
   const drawCheck = () => {
     if (won == false) {
-      console.log("draw")
+      displayController.announce("Nobody here");     
     }        
-  }
-  
-  
+  }  
   const winnerIs = (pNum) => {
-    won = true;
-    console.log(`winner is ${pNum}`)
+    won = true;    
+    if (p1.mark() == pNum) {
+      displayController.announce(p1.getName())
+    } else {
+      displayController.announce(p2.getName())
+    }
+    gameBoard.clearListeners();
+  }  
+  const reset = () => {  
+    currentPlayer = p1;
+    turnCount = 0;
+    won = false;
+    gameBoard.clearBoard();
   }
-  
-  
   return {
     tileSelection,
-    updatePlayers    
-  }
-
-  //reset function has to clear all attribute 'content' from divs
-  //reduce turn count to 0
-  //won to false
+    updatePlayers,
+    reset    
+  }  
 })();
 
-
-// Page display/DOM module
+// Page display/DOM module //////////////////////////////////////////////////////////////
 const displayController = (function() {
-  const startButton = document.getElementById('start');
-  const modal = document.getElementById('input-modal'); 
-  
 
+  const startButton = document.getElementById('start');
+  const modal = document.getElementById('input-modal');
+  const resetButton = document.getElementById('reset');
+  const optionsButton = document.getElementById('options');
+  const resultDiv = document.getElementById('result');
+  
   closeModal = () => {
     modal.style.display = 'none';
+  }
+  updateDisplay = () => {
+    document.querySelector('#name1-display').textContent = 
+        document.querySelector('#name1').value;
+    document.querySelector('#name2-display').textContent = 
+        document.querySelector('#name2').value;
+    if (document.querySelector('input[name="turn"]:checked').value == 1) {
+      document.querySelector('#name1-mark').textContent = "(X)";
+      document.querySelector('#name2-mark').textContent = "(O)";
+    } else {
+      document.querySelector('#name1-mark').textContent = "(O)";
+      document.querySelector('#name2-mark').textContent = "(X)";
+    }
+  }
+  announce = (name) => {    
+    resultDiv.innerText = name + " is Victorious"
   }
 
   startButton.addEventListener('click', () => {
     game.updatePlayers();
+    updateDisplay();
     closeModal();
   });
-
-
+  resetButton.addEventListener('click', () => {
+    game.reset();
+    resultDiv.innerText = "";
+  });
+  optionsButton.addEventListener('click', () => {
+    game.reset();
+    modal.style.display = 'flex';
+    resultDiv.innerText = '';
+  });  
+  return {
+    announce
+  }
 })();
 
-gameBoard.renderBoard()
+gameBoard.renderBoard();
 
 
 
-document.querySelector('input[name="turn"]:checked').value;
-document.querySelector('#name1').value
-document.querySelector('#name2').value

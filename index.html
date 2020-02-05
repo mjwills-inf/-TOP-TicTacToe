@@ -31,25 +31,26 @@
 					<div class="letter">E</div>
 				</div>
 
+				<!-- computer disabled radio here -->
 				<div id="versus">
 					<h2>Versus:</h2>
 					<label for="computer">Computer</label>
-					<input type="radio" name="versus" id="computer" value="computer">
+					<input type="radio" name="versus" id="computer" value="computer" disabled> 
 					<label for="human">Human</label>
 					<input type="radio" name="versus" id="human" value="human" checked>
 				</div>
 				<div id="turn">
 					<h2>Turn:</h2>
-					<label for="x">First</label>
+					<label for="x">First (X)</label>
 					<input type="radio" name="turn" id="x" value="1" checked>
-					<label for="o">Second</label>
+					<label for="o">Second (O)</label>
 					<input type="radio" name="turn" id="o" value="-1">
 				</div>
 				<div id="names">
 					<h2>Names:</h2>
-					<label for="name1"><input type="text" id="name1" value="Player One">
+					<label for="name1"><input type="text" id="name1" value="Player">
 						<br>
-						<label for="name2"><input type="text" id="name2" value="Human">
+						<label for="name2"><input type="text" id="name2" value="Opponent">
 							<br>
 				</div>
 				
@@ -59,16 +60,17 @@
 
 
 		<div id="board-container">
-			<div id="name1-display" class="name-display">
-				Name One <span id="name1-mark">(X)</span>
+			<div class="name-display">
+				<span id="name1-display">Name One</span>
+				<span id="name1-mark">(X)</span>
 			</div>
 			<div id="grid-container">
 			</div>
-			<div id="name2-display" class="name-display">
-				Name Two <span id="name2-mark">(O)</span>
+			<div class="name-display">
+				<span id="name2-display">Name Two</span>
+				<span id="name2-mark">(O)</span>
 			</div>
-			<div id="result">
-				And The Winner Is
+			<div id="result">				
 			</div>
 			<div id="reset-buttons">
 				<input type="button" id="reset" value="Reset">
